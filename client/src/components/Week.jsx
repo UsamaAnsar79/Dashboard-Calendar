@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -101,7 +100,11 @@ const Week = () => {
     setPopup(true);
   };
   const handleDeleteClick = (eventId) => {
-    deleteEvent(eventId);
+    if (eventId) {
+      deleteEvent(eventId);
+    } else {
+      console.error("Event ID is undefined");
+    }
   };
 
   const popupSave = () => {
@@ -110,13 +113,13 @@ const Week = () => {
       eventDate.setHours(parseInt(popupEvent.time.split(":")[0], 10), 0, 0, 0); // Set correct time
 
       const newEvent = {
-        id: editingEvent ? editingEvent.id : generateUniqueId(),
+        id: editingEvent ? editingEvent._id : generateUniqueId(),
         ...popupEvent,
-        date: eventDate.toISOString(), // Store as ISO string
+        date: eventDate.toISOString(), 
       };
 
       if (editingEvent) {
-        updateEvent(editingEvent.id, newEvent);
+        updateEvent(editingEvent._id, newEvent);
         setEditingEvent(null);
       } else {
         addEvent(newEvent);
@@ -206,7 +209,7 @@ const Week = () => {
                 </button>
                 <button
                   className="trash-btn"
-                  onClick={() => handleDeleteClick(event.id)}
+                  onClick={() => handleDeleteClick(event._id)}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
@@ -250,7 +253,7 @@ const Week = () => {
                           key={idx}
                           event={event}
                           onEditClick={handleEditClick}
-                          onDeleteClick={handleDeleteClick}
+                          onDeleteClick={() => handleDeleteClick(event._id)}
                         />
                         ))}
                     </div>
