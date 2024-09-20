@@ -1,0 +1,74 @@
+[
+    {
+      "label": "JAN",
+      "accountsValue": 100,
+      "purchaseValue": 80,
+      "sessionsValue": 60
+    },
+    {
+      "label": "FEB",
+      "accountsValue": 70,
+      "purchaseValue": 120,
+      "sessionsValue": 80
+    },
+    {
+      "label": "MAR",
+      "accountsValue": 90,
+      "purchaseValue": 105,
+      "sessionsValue": 65
+    },
+    {
+      "label": "APR",
+      "accountsValue": 70,
+      "purchaseValue": 110,
+      "sessionsValue": 130
+    },
+    {
+      "label": "MAY",
+      "accountsValue": 85,
+      "purchaseValue": 95,
+      "sessionsValue": 80
+    },
+    {
+      "label": "JUN",
+      "accountsValue": 60,
+      "purchaseValue": 105,
+      "sessionsValue": 105
+    },
+    {
+      "label": "JUL",
+      "accountsValue": 75,
+      "purchaseValue": 90,
+      "sessionsValue": 90
+    },
+    {
+      "label": "AUG",
+      "accountsValue": 60,
+      "purchaseValue": 100,
+      "sessionsValue": 130
+    },
+    {
+      "label": "SEP",
+      "accountsValue": 90,
+      "purchaseValue": 80,
+      "sessionsValue": 70
+    },
+    {
+      "label": "OCT",
+      "accountsValue": 80,
+      "purchaseValue": 95,
+      "sessionsValue": 115
+    },
+    {
+      "label": "NOV",
+      "accountsValue": 110,
+      "purchaseValue": 70,
+      "sessionsValue": 60
+    },
+    {
+      "label": "DEC",
+      "accountsValue": 100,
+      "purchaseValue": 120,
+      "sessionsValue": 130
+    }
+  ]

@@ -1,0 +1,70 @@
+/* MANAGED TABLE */
+
+.table-management {
+  width: 48vw;
+  height: 500px;
+  background-color: #27293d;
+  border-radius: 5px;
+  position: relative;
+  padding: 20px;
+}
+.table-image {
+  height: 400px;
+}
+
+.table-management .manage-table thead tr th {
+  font-size: 14px;
+}
+
+.table-management .manage-table tbody tr td {
+  font-size: 14px;
+  font-weight: 300;
+  padding-top: 23px;
+}
+.table-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.actions-icon i {
+  padding-left: 12px;
+}
+
+.reload-table-data-icon {
+  color: rgb(34, 207, 170);
+  font-size: 16px;
+}
+
+.cross-table-icon {
+  color: rgb(187, 62, 40);
+  font-size: 16px;
+}
+
+.progress-bar {
+  background-color: grey;
+}
+.task-dropdown-detail{
+  position: absolute;
+}
+/* MANAGE TABLE END */
+
+@media (max-width: 768px) {
+  .table-management{
+    width: 95vw;
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 508px) {
+.table-management {
+  height: auto;
+ }
+ .manage-table{
+  margin-top: 15px;
+ }
+
+ .table-management .manage-table thead tr th,.table-management .manage-table tbody tr td {
+  font-size: 12px;
+}
+}

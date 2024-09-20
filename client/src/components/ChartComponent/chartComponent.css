@@ -1,0 +1,95 @@
+/* Chart COMPONENT */
+
+.chart-container {
+  height: 330px;
+  background-color: #27293d;
+  margin-right: 32px;
+  padding: 0px 12px;
+  border-radius: 6px;
+  margin: 23px 0px;
+}
+
+/* Chart Header */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px 10px 10px;
+  cursor:text;
+}
+
+.chart-header-details{
+  margin-bottom: 10px;
+}
+
+.chart-detail-heading {
+  color: rgba(255, 255, 255, 0.699);
+  font-size: 15px;
+  font-weight: 200;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.chart-heading {
+  font-size: 28px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.chart-btn {
+  color: #1f8ef1;
+  background-color: transparent;
+  border: 1px solid #1f8ef1;
+  letter-spacing: 0.7px;
+  font-size: 12px;
+  font-weight: 550;
+  cursor: pointer;
+  padding: 6px 14px;
+}
+
+.chart-btn.active  {
+  color: white;
+  background-color: #1f8ef1;
+
+}
+.chart-btn:first-child {
+  border-top-left-radius: 5px; 
+  border-bottom-left-radius: 5px;
+}
+
+.chart-btn:last-child {
+  border-top-right-radius: 5px; 
+  border-bottom-right-radius: 5px; 
+}
+/* ------------------------- */
+
+/* Media Queries */
+
+@media (max-width: 768px) {
+  .chart-container {
+    width: 95vw;
+    height: auto; 
+    margin: 15px 0;
+  }
+
+  .chart-btn {
+    padding: 4px 19px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 508px) {
+  .chart-container {
+    width: 94vw;
+  }
+  .chart-header {
+    justify-content:start;
+  }
+  .chart-btn {
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+  .chart-buttons{
+    margin-left: 21px;
+  }
+}

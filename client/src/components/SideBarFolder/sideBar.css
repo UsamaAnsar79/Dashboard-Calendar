@@ -1,0 +1,135 @@
+
+ .sidebar {
+  width: 5.3rem;
+  height: 83vh;
+  background: #1e8af8;
+  position: absolute;
+  top: 7%;
+  left: 0;
+  padding-top: 18px;
+  /* transition:  0.3s; */
+  border-radius: 8px;
+  z-index: 1;
+  margin-top: 2.3rem;
+  margin-left: 1.3rem;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: 0.3s ease-in-out;
+}
+
+.sidebar.expanded {
+  width: 250px;
+  overflow-y: scroll;
+ 
+}
+
+.sidebar-header {
+  display: flex;
+  gap: 13px;
+  margin: 15px 10px 5px 0px;
+  padding-bottom: 15px;
+}
+
+.sidebar-header h5 {
+  font-size: 14px;
+  font-weight: light;
+  letter-spacing: 0.5px;
+  padding-top: 5px;
+}
+
+.sidebar-header .react-icon {
+  color: #4fa4f8;
+  font-size: 35px;
+  background-color: #1e1e2f;
+  border-radius: 50%;
+  padding: 6px 3px;
+}
+
+.sidebar.sidebar.collapsed.sidebar-header.react-icon {
+  align-items: center;
+}
+.nav-sidebar-icon{
+  cursor: pointer;
+}
+.sidebar .dropdown-ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;  
+}
+
+.sidebar .dropdown-ul .sidebar-links {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  padding-top: 12px;
+  position: relative;
+}
+.dropdown-ul .sidebar-links.active {
+  list-style: circle;
+}
+
+.dropdown-ul .sidebar-links.active::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  top: 62%;
+  transform: translateY(-50%);
+  width: 7px; 
+  height: 7px; 
+  background-color: white;
+  border-radius: 50%; 
+}
+
+.sidebar.expanded .dropdown-ul .sidebar-links.active::before {
+  content: "";
+  position: absolute;  
+  left: -5%;
+  transform: translateY(-50%);
+  width: 7px; 
+  height: 7px; 
+  background-color: white;
+  border-radius: 50%; 
+}
+
+.sidebar ul .sidebar-links{
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  font-weight: 200;
+}
+
+.sidebar ul .sidebar-links span {
+  margin-left: 10px;
+  display: none;
+}
+
+.sidebar.expanded ul .sidebar-links span {
+  display: inline;
+  transition: 0.8s ease-out;  
+}
+
+.sidebar ul .sidebar-links .sidebar-icon {
+  font-size: 1.5rem;
+}
+
+/* Media Queries */
+
+ @media (max-width: 768px) {
+  .sidebar {
+    left: -250px;
+  }
+
+  .sidebar.open {
+    height: 100vh;
+    display: block;
+  }
+  .sidebar.expanded {
+    left: -20px;
+  }
+} 

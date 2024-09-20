@@ -1,0 +1,34 @@
+[
+    {
+        "country" :"USA",
+        "flagURL" : "united-states",
+        "productQuantity": 2.920,
+        "salesPercentage": "53.23%" 
+    },
+    {
+        "country" : "Germany",
+        "flagURL" :"germany",
+        "productQuantity" : "1300",
+        "salesPercentage" : "20.43%"
+    },    {
+        "country" : "Australia",
+        "flagURL" :"australia",
+        "productQuantity" : 760,
+        "salesPercentage" : "10.35%"
+    },    {
+        "country" : "United Kingdom",
+        "flagURL" : "united-kingdom",
+        "productQuantity" : 690,
+        "salesPercentage" : "7.87%"
+    },    {
+        "country" : "Romania",
+        "flagURL" : "romania",
+        "productQuantity" : 600,
+        "salesPercentage" : "5.94%"
+    },    {
+        "country" : "Brazil",
+        "flagURL" : "brazil",
+        "productQuantity" : 550,
+        "salesPercentage" : "4.34%"
+    }
+]

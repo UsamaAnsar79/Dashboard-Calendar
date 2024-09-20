@@ -1,0 +1,109 @@
+/* Tasks Section */
+.task-main-container {
+  width: 37.8vw;
+  height: 500px;
+  background-color: #27293d;
+  border-radius: 5px;
+  padding: 18px 12px;
+  position: relative;
+}
+
+.task-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-header {
+  display: inline-flex;
+  gap: 23px;
+}
+.task-heading {
+  color: rgba(255, 255, 255, 0.712);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.task-detail {
+  color: rgba(255, 255, 255, 0.568);
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.task-settings {
+  cursor: pointer;
+}
+.task-setting-icon {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.568);
+  padding-right: 4px;
+}
+
+.task-dropdown-icon {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.568);
+}
+
+.task-dropdown-detail {
+  width: 160px;
+  height: 140px;
+  background-color: white;
+  border-radius: 5px;
+  position: absolute;
+  top: 9%;
+  right: 3.2%;
+}
+.task-dropdown-detail ul li {
+  list-style: none;
+  padding: 13px 0px;
+  color: grey;
+  font-size: 13px;
+  font-weight: 380;
+}
+
+/* TASKS LIST */
+
+.task-list {
+  height: 440px;
+  margin-top: 10px;
+  overflow: scroll;
+}
+
+.task-list-content {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.568);
+  padding: 20px 0px 20px 5px;
+  border-top: 1px solid rgba(128, 128, 128, 0.432);
+}
+
+.task-list-left-side {
+  display: flex;
+}
+
+.task-list-left-side div {
+  padding-left: 10px;
+}
+.check-icon {
+  cursor: pointer;
+  height: 20px;
+}
+
+.task-list-left-side div h5 {
+  font-size: 15px;
+}
+
+.task-paragraph {
+  font-size: 14px;
+  font-weight: 200;
+}
+.task-pencil-icon {
+  font-size: 22px;
+  padding-right: 8px;
+}
+/* TASKA LIST END */
+
+@media (max-width: 768px) {
+  .task-main-container{
+    width: 95vw;
+  }
+}

@@ -1,0 +1,84 @@
+/*COMPONENT GROUPS */
+.grouped-components {
+  display: flex;
+  gap: 24px;
+  width: 89vw;
+}
+
+.components-chart {
+  width: 350px;
+  height: 230px;
+  padding-bottom: 10px;
+}
+
+.component {
+  width: 385px;
+  height: 335px;
+  background-color: #27293d;
+  padding: 20px 10px;
+  border-radius: 5px;
+  margin: 30px 0px;
+}
+.component-header {
+  padding-left: 7px;
+  padding-bottom: 19px;
+  letter-spacing: 0.7px;
+}
+
+.component-heading {
+  color: rgba(255, 255, 255, 0.637);
+  font-weight: 200;
+}
+
+.component-detail {
+  display: flex;
+  gap: 8px;
+  padding-top: 3px;
+}
+
+.component-detail h3 {
+  font-size: 22px;
+  font-weight: 200;
+}
+
+.component-detail i {
+  font-size: 18px;
+  padding-top: 3px;
+}
+
+/* icon colors */
+.chart-1-icon {
+  color: #bd61be;
+}
+
+.chart-2-icon {
+  color: #3e8ff3;
+}
+
+.chart-3-icon {
+  color: #3ce9cf;
+}
+
+/* GROUPED COMPONENT END */
+
+@media (max-width: 768px) {
+  .grouped-components {
+    display: block;
+  }
+
+  .component{
+    width: 707px;
+  }
+  .components-chart {
+    width: 682px;
+  }
+}
+
+@media (max-width: 508px) {
+   .component{
+    width: 479px;
+  }
+  .components-chart {
+    width: 465px;
+  }
+}
