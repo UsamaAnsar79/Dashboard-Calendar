@@ -38,7 +38,7 @@ const DayCalendarBody = ({
                       <button onClick={() => handleEditEvent(event)}>
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
-                      <button className="trash-btn" onClick={(e) => handleDeleteEvent(event.id, e)}>
+                      <button className="trash-btn" onClick={(e) => handleDeleteEvent(event._id, e)}>
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>

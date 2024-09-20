@@ -90,13 +90,13 @@ const Day = () => {
       eventDate.setHours(parseInt(popupEvent.time.split(":")[0], 10), 0, 0, 0);
 
       const newEvent = {
-        id: editingEvent ? editingEvent.id : generateUniqueId(), 
+        id: editingEvent ? editingEvent._id : generateUniqueId(), 
         ...popupEvent,
         date: eventDate,
       };
 
       if (editingEvent) {
-        updateEvent(editingEvent.id, newEvent);
+        updateEvent(editingEvent._id, newEvent);
         setEditingEvent(null);
       } else {
         addEvent(newEvent);

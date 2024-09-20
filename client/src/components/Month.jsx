@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -6,9 +7,8 @@ import { useParams } from "react-router-dom";
 import { useEvents } from "./EventContext";
 import EventIconContainer from "./EventIconContainer"; 
 import ViewList from "./ViewList";
-
-// Utility function to generate unique IDs
-const generateUniqueId = () => "_" + Math.random().toString(36).substr(2, 9);
+import Select from "react-select";
+import axios from "axios";
 
 function Month() {
   const { monthIndex } = useParams();
@@ -20,8 +20,10 @@ function Month() {
     title: "",
     description: "",
     time: "",
+    user: null,
   });
   const [editingEvent, setEditingEvent] = useState(null);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (monthIndex !== undefined) {
@@ -32,75 +34,51 @@ function Month() {
     }
   }, [monthIndex]);
 
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/users");
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
-  const firstDayOfMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1
-  );
-  const lastDayOfMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
-    0
-  );
+    fetchUsers();
+  }, []);
+
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
   const firstDayOfWeek = firstDayOfMonth.getDay();
-  const lastDayOfPreviousMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    0
-  ).getDate();
+  const lastDayOfPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
 
   const dates = [];
 
-  // Add days from the previous month
-  for (
-    let i = lastDayOfPreviousMonth - firstDayOfWeek + 1;
-    i <= lastDayOfPreviousMonth;
-    i++
-  ) {
-    dates.push({
-      date: new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, i),
-      isOtherMonth: true,
-    });
+  for (let i = lastDayOfPreviousMonth - firstDayOfWeek + 1; i <= lastDayOfPreviousMonth; i++) {
+    dates.push({ date: new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, i), isOtherMonth: true });
   }
 
-  // Add days from the current month
   for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-    dates.push({
-      date: new Date(currentDate.getFullYear(), currentDate.getMonth(), i),
-      isOtherMonth: false,
-    });
+    dates.push({ date: new Date(currentDate.getFullYear(), currentDate.getMonth(), i), isOtherMonth: false });
   }
 
-  // Add days from the next month if needed to fill the grid
   const totalCells = firstDayOfWeek + lastDayOfMonth.getDate();
   const isLastRowComplete = totalCells % 7 === 0;
 
   if (!isLastRowComplete) {
     const remainingCells = 7 - (totalCells % 7);
     for (let i = 1; i <= remainingCells; i++) {
-      dates.push({
-        date: new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth() + 1,
-          i
-        ),
-        isOtherMonth: true,
-      });
+      dates.push({ date: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i), isOtherMonth: true });
     }
   }
 
   const handlePreviousMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
-    );
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
   };
 
   const handleNextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
-    );
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
   const today = new Date();
@@ -111,7 +89,7 @@ function Month() {
   };
 
   const handleDateClick = (date, isOtherMonth) => {
-    if (isOtherMonth) return; // Prevent selecting dates from other months
+    if (isOtherMonth) return; 
     if (selectDate && selectDate.toDateString() === date.toDateString()) {
       setSelectDate(null);
     } else {
@@ -121,11 +99,7 @@ function Month() {
 
   const handleAddEventClick = (date) => {
     setSelectDate(date);
-    setPopupEvent({
-      title: "",
-      description: "",
-      time: getCurrentTimeString(),
-    });
+    setPopupEvent({ title: "", description: "", time: getCurrentTimeString(), user: null });
     setEditingEvent(null);
     setPopup(true);
   };
@@ -145,35 +119,38 @@ function Month() {
     }
   };
 
-  const popupSave = () => {
-    if (popupEvent.title && selectDate) {
+  const popupSave = async () => {
+    if (popupEvent.title && selectDate && popupEvent.user) {
       const eventDate = new Date(selectDate);
-      eventDate.setHours(0, 0, 0, 0); // Set the event's date to the selected date
+      eventDate.setHours(0, 0, 0, 0);
 
       const newEvent = {
-        id: editingEvent?._id,
-        ...popupEvent,
-        date: eventDate.toISOString(), // Use ISO string for consistency
+        title: popupEvent.title,
+        description: popupEvent.description,
+        time: popupEvent.time,
+        date: eventDate.toISOString(),
+        user: popupEvent.user,
       };
 
-      if (editingEvent) {
-        updateEvent(editingEvent._id, newEvent); // Use `_id` for MongoDB
-        setEditingEvent(null);
-      } else {
-        addEvent(newEvent);
+      try {
+        if (editingEvent) {
+          await updateEvent(editingEvent._id, newEvent);
+        } else {
+          await addEvent(newEvent);
+        }
+        popupClose();
+      } catch (error) {
+        console.error("Error saving event:", error);
       }
-
-      popupClose();
     }
   };
 
   const popupClose = () => {
     setPopup(false);
-    setPopupEvent({ title: "", description: "", time: "" });
+    setPopupEvent({ title: "", description: "", time: "", user: null });
     setEditingEvent(null);
   };
 
-  // Generate an array of years for the select dropdown
   const generateYearOptions = () => {
     const startYear = 1900;
     const endYear = 2100;
@@ -185,11 +162,12 @@ function Month() {
 
     return years;
   };
-  // time in input
+
   const getCurrentTimeString = () => {
     const now = new Date();
-    return now.toTimeString().slice(0, 5); // "HH:MM"
+    return now.toTimeString().slice(0, 5); 
   };
+
   return (
     <div className="calendar-main">
       <div className="calendar">
@@ -227,28 +205,14 @@ function Month() {
           {dates.map((item, index) => (
             <div
               key={index}
-              className={`calendar-date ${
-                selectDate &&
-                selectDate.toDateString() === item.date.toDateString()
-                  ? "selected"
-                  : ""
-              } ${item.isOtherMonth ? "other-month" : ""} ${
-                item.date.getDate() === today.getDate() &&
-                item.date.getMonth() === today.getMonth() &&
-                item.date.getFullYear() === today.getFullYear()
-                  ? "active"
-                  : ""
-              }`}
+              className={`calendar-date ${selectDate && selectDate.toDateString() === item.date.toDateString() ? "selected" : ""} ${item.isOtherMonth ? "other-month" : ""} ${item.date.getDate() === today.getDate() && item.date.getMonth() === today.getMonth() && item.date.getFullYear() === today.getFullYear() ? "active" : ""}`}
               onClick={() => handleDateClick(item.date, item.isOtherMonth)}
             >
               {item.date.getDate()}
               {!item.isOtherMonth && (
                 <EventIconContainer
                   date={new Date(item.date)}
-                  isDateSelected={
-                    selectDate &&
-                    selectDate.toDateString() === item.date.toDateString()
-                  }
+                  isDateSelected={selectDate && selectDate.toDateString() === item.date.toDateString()}
                   onAddEventClick={handleAddEventClick}
                 />
               )}
@@ -279,33 +243,35 @@ function Month() {
       {popup && (
         <div className="popup">
           <div className="popup-content">
-            <h3>
-              {editingEvent ? "Edit Event" : "Add an Event"} on{" "}
-              {selectDate ? selectDate.toDateString() : ""}
-            </h3>
+            <h3>{editingEvent ? "Edit Event" : "Add an Event"} on {selectDate ? selectDate.toDateString() : ""}</h3>
             <input
               type="text"
               placeholder="Title"
               value={popupEvent.title}
-              onChange={(e) =>
-                setPopupEvent({ ...popupEvent, title: e.target.value })
-              }
+              onChange={(e) => setPopupEvent({ ...popupEvent, title: e.target.value })}
             />
             <input
               type="text"
               placeholder="Description"
               value={popupEvent.description}
-              onChange={(e) =>
-                setPopupEvent({ ...popupEvent, description: e.target.value })
-              }
+              onChange={(e) => setPopupEvent({ ...popupEvent, description: e.target.value })}
             />
             <input
               type="time"
               value={popupEvent.time}
-              onChange={(e) =>
-                setPopupEvent({ ...popupEvent, time: e.target.value })
-              }
+              onChange={(e) => setPopupEvent({ ...popupEvent, time: e.target.value })}
               onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+            />
+            <Select
+              placeholder="Select User"
+              value={popupEvent.user ? { value: popupEvent.user, label: users.find(user => user._id === popupEvent.user)?.name } : null}
+              onChange={(selectedOption) =>
+                setPopupEvent({ ...popupEvent, user: selectedOption.value })
+              }
+              options={users.map((user) => ({
+                value: user._id,
+                label: user.name,
+              }))}
             />
             <div className="popup-buttons">
               <button onClick={popupClose}>Cancel</button>
