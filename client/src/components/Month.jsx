@@ -13,7 +13,7 @@ import axios from "axios";
 function Month() {
   const { monthIndex } = useParams();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { events, addEvent, updateEvent, deleteEvent } = useEvents();
+  const { events,setEvents,updateCurrentMonthYear, addEvent, updateEvent, deleteEvent } = useEvents();
   const [selectDate, setSelectDate] = useState(null);
   const [popup, setPopup] = useState(false);
   const [popupEvent, setPopupEvent] = useState({
@@ -30,9 +30,11 @@ function Month() {
       const month = Number(monthIndex);
       if (!isNaN(month)) {
         setCurrentDate(new Date(currentDate.getFullYear(), month, 1));
+        updateCurrentMonthYear(month, currentDate.getFullYear());
       }
     }
   }, [monthIndex]);
+  
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -46,6 +48,18 @@ function Month() {
 
     fetchUsers();
   }, []);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/events`);
+        setEvents(response.data); 
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, [currentDate]);
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -175,7 +189,7 @@ function Month() {
           <button onClick={handlePreviousMonth}>
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
-          <button onClick={() => setCurrentDate(new Date())}>Today</button>
+          <button onClick={() => setCurrentDate(new Date())}>Current Month</button>
           <button onClick={handleNextMonth}>
             <FontAwesomeIcon icon={faArrowRight} />
           </button>
@@ -263,6 +277,7 @@ function Month() {
               onFocus={(e) => e.target.showPicker && e.target.showPicker()}
             />
             <Select
+           
               placeholder="Select User"
               value={popupEvent.user ? { value: popupEvent.user, label: users.find(user => user._id === popupEvent.user)?.name } : null}
               onChange={(selectedOption) =>
@@ -272,6 +287,17 @@ function Month() {
                 value: user._id,
                 label: user.name,
               }))}
+              styles={{
+                option: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: state.isSelected ? "#4caf50" : "#ffffff",
+                  color: state.isSelected ? "#ffffff" : "#333333",
+                  "&:hover": {
+                    backgroundColor: "#c8e6c9",
+                    color: "black",
+                  },
+                }),
+              }}
             />
             <div className="popup-buttons">
               <button onClick={popupClose}>Cancel</button>

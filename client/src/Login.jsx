@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -17,50 +18,42 @@ function Login() {
     axios
       .post("http://localhost:3001/", { email, password })
       .then((result) => {
-        console.log(result);
-  // Store token in localStorage
-  if (result.data.token) {
-    localStorage.setItem("userToken", result.data.token);
-  }
+        console.log(result.data);
+
+        // Store token and userId in localStorage
+        if (result.data.token) {
+          localStorage.setItem("userToken", result.data.token);
+          localStorage.setItem("userId", result.data.userId); 
+        }
+
         // Handle based on user status
         switch (result.data.status) {
           case "pending":
             setMessage("Your account is under observation.");
             setMessageType("pending");
-            setShowMessage(true);
-            setTimeout(() => {
-              setShowMessage(false);
-            }, 5000);
             break;
           case "rejected":
             setMessage("Your account has been rejected.");
             setMessageType("error");
-            setShowMessage(true);
-            setTimeout(() => {
-              setShowMessage(false);
-            }, 5000);
             break;
           case "active":
-            localStorage.setItem("name", result.data.name);
-            navigate("/dashboard");
+            localStorage.setItem("name", result.data.name); // Store name
+            navigate("/dashboard"); // Redirect to dashboard
             return;
           case "inactive":
             setMessage("Your account is inactive.");
             setMessageType("error");
-            setShowMessage(true);
-            setTimeout(() => {
-              setShowMessage(false);
-            }, 5000);
             break;
           default:
             setMessage("An error occurred. Please try again.");
             setMessageType("error");
-            setShowMessage(true);
-            setTimeout(() => {
-              setShowMessage(false);
-            }, 5000);
             break;
         }
+
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 5000);
       })
       .catch((err) => {
         console.log(err);

@@ -143,27 +143,7 @@
   font-size: 27px;
   cursor: pointer;
 }
-.notification{
-  height: 240px;
-  background-color: white;
-  border-radius: 5px;
-  padding: 5px 10px;
-  position: absolute;
-  top: 90%;
-  right: 9.2%;
-  z-index: 1;
-}
-.notification  li{
-  list-style: none;
-  padding: 13px 13px;
-  color: grey;
-  font-size: 13px;
-  font-weight: 380;
-  cursor: pointer;
-}
-.notification li:hover{
-  background-color:rgba(136, 124, 124, 0.267);
-}
+
 
 @media (max-width: 768px) {
   .dashboard-heading{
@@ -195,3 +175,59 @@
       padding-top: 28px;
       }
 }
+/* Notification Styles */
+.notification-dropdown {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  width: 200px;
+  max-height: 300px;
+  overflow-y: auto; 
+  color: rgba(46, 43, 43, 0.644);
+  right: 9%;
+  z-index: 1000;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.notification-item p{
+  margin:0;
+}
+
+.notification-item.unread {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.notification-item.read {
+  background-color:#007bff2f;
+}
+
+.notification-count {
+  color:red;
+  border-radius: 50%;
+  padding: 3px 8px;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+}
+
+.profile-menu {
+  cursor: pointer;
+}
+
+.nav-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-search-activity {
+  position: relative;
+  margin-right: 20px;
+}
+

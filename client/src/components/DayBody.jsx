@@ -18,6 +18,12 @@ const DayCalendarBody = ({
     const adjustedHour = hour % 12 === 0 ? 12 : hour % 12;
     return `${adjustedHour}:00 ${suffix}`;
   };
+  const truncate = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  };
 
   return (
     <div className="day-calendar-body">
@@ -33,7 +39,7 @@ const DayCalendarBody = ({
                 .filter(event => parseInt(event.time.split(":")[0], 10) === hour)
                 .map((event) => (
                   <div key={event.id} className="event-block">
-                    {event.title}
+                 {truncate(event.title,55)}
                     <div>
                       <button onClick={() => handleEditEvent(event)}>
                         <FontAwesomeIcon icon={faEdit} />

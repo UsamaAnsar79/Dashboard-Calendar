@@ -6,6 +6,8 @@ const Permission = require("./models/Permissions");
 const Role = require("./models/Role");
 const UserModel = require("./models/User");
 const eventRoutes = require("./eventRoutes");
+const Notification = require('./models/Notification');
+
 const generateJWT = require("./utils/generateJWT");
 require("dotenv").config();
 
@@ -67,6 +69,7 @@ app.post("/", async (req, res) => {
     // Send status along with other details
     res.json({
       token,
+      userId: user._id,
       status: user.status,
       name: user.name,
       message: "Login successful",
@@ -304,6 +307,45 @@ app.put("/togglePermission", (req, res) => {
     .then(() => res.json("Permission status updated"))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
+
+app.get('/notifications', async (req, res) => {
+  const userId = req.query.user; 
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  try {
+    // Fetch all notifications for the user
+    const notifications = await Notification.find({ user: userId });
+    res.json(notifications);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch notifications", details: err.message });
+  }
+});
+app.put('/notifications/:id', async (req, res) => {
+  const { id } = req.params;
+  const { read } = req.body; // Expecting 'read' status to update
+
+  try {
+    const updatedNotification = await Notification.findByIdAndUpdate(
+      id,
+      { read },
+      { new: true }
+    );
+
+    if (!updatedNotification) {
+      return res.status(404).json({ error: "Notification not found" });
+    }
+
+    res.json({
+      message: "Notification updated successfully",
+      notification: updatedNotification,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update notification", details: err.message });
+  }
+});
+
 app.use("/events", eventRoutes);
 
 app.listen(3001, () => {
